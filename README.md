@@ -59,8 +59,8 @@ Before analysis, the raw data was cleaned to ensure accuracy:
 
 ### 3. Top 10 App Categories
 
-![Top App Categories](Images/top_10_apps.png)
-
+![Top App Categories](Images/top10_apps.png)
+ 
 
 ### 4. Category with Large number of installations
 
