@@ -54,9 +54,9 @@ Before analysis, the raw data was cleaned to ensure accuracy:
 ![Numeric Distribution](Images/numeric_distribution.png)
 
 ### 2. Distribution of Categorical Data
-* This chart shows which app categories are the most common on the market, led by Family, Games, and Tools.
+* This chart shows Univariate Analysis of Categorical Data
 
-![Category Distribution](Images/category_distribution.png)
+![Category Distribution](Images/category_analysis.png)
 
 
 ### 3. Top 10 App Categories
@@ -70,21 +70,16 @@ Before analysis, the raw data was cleaned to ensure accuracy:
 ![Category with Large Installations](Images/large_installs.png)
 
 
-### 5. Top 5 Apps in Popular Categories
-* This chart shows the Top 5 most installed apps in each popular category.
-
-![Top 5 Apps in Popular Categories](Images/popular_categories.png)
-
-### 6. Number of Apps with 5.0 Ratings
+### 5. Number of Apps with 5.0 Ratings
 * There are *271 apps* in the dataset that achieved a *5.0 rating*.
 
 
-### 7. Correlation Analysis
+### 6. Correlation Analysis
 * This heatmap shows how app metrics relate to each other, revealing a strong link between Installs and the number of user Reviews.
 
 ![Correlation Analysis](Images/correlation_analysis.png)
 
-### 8. Time Series Analysis
+### 7. Time Series Analysis
 * This line chart shows the steady growth of apps uploaded to the Google Play Store over time, with a massive spike in growth starting after 2016.
 
 ![Time Series Analysis](Images/Time_analysis.png)
