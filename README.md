@@ -56,7 +56,7 @@ Before analysis, the raw data was cleaned to ensure accuracy:
 ### 2. Distribution of Categorical Data
 * This chart shows Univariate Analysis of Categorical Data
 
-![Category Distribution](Images/category_analysis.png)
+![Category analysis](Images/Category_analysis.png)
 
 
 ### 3. Top 10 App Categories
