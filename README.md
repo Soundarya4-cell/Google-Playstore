@@ -14,15 +14,31 @@ An end-to-end Python data analytics project focused on cleaning, transforming, a
 
 ## Data Cleaning and Preprocessing
 Before analysis, the raw data was cleaned to ensure accuracy:
-* **Missing Values:**  Handled null values in columns.
 
-* **Data Type Conversion:** Converted `Reviews` to numeric, and stripped characters (like `+`, `,`, and `$`) from `Installs` and `Price` to turn them into numerical types.
+* **`Reviews` Cleaning:** 
+  * Dropped the only string data "3.0M" from reviews column and converted the entire column to integer data type.
 
-* **`Size` Cleaning:** * Standardized the column by replacing "Varies with device" with NaN. Developed a data transformation pipeline using Python lambda functions to convert Megabytes (M) to Kilobytes by multiplying by 1,000, and stripped the k character from Kilobyte values, successfully casting the entire feature into a uniform numeric scale (KB).
-  * Converting the final column to a clean float type.
+* **`Size` Cleaning:** 
+  * The raw Size column was stored as text strings with varying units ("M" for Megabytes, "k" for Kilobytes) alongside unstructured text values like "Varies with     device". 
+  * *Handling Missing Values:* I replaced the non-numeric string "Varies with device" with standard NaN (np.nan) values.
+  * *Creating a Kilobyte Mask:* I defined a boolean mask (is_k) using .str.contains('k') to isolate rows that were originally in Kilobytes.
+  * *Character Stripping & Type Casting:* I stripped both the "M" and "k" text indicators from the entire column and cast the values to float.
+  * *Alignment with .loc:* Using my boolean mask and .loc indexer, I targeted only the rows that were originally in Kilobytes and divided them by 1024 to 
+     scale them down to Megabytes:
+    df_copy.loc[is_k, "size"] = df_copy.loc[is_k, "Size"] / 1024
 
-  * **Missing Value Imputation:** Handled `Rating` and `Size` using **Grouped Median Imputation**. I didn't just fill it with a generic average of the whole dataset. 
-  * Categorical Features `Type`, `Current Ver` and `Android Ver`: Filled null values using a **mode imputation (.mode()[0])** to maintain categorical consistency.
+  * **`Installs` Cleaning:** 
+    * Values were written as text with extra characters (e.g., "10,000,000+").
+    * I used a loop to strip out the + and , characters, then converted the column to integers (whole numbers)
+    char_to_change = ['+', ',']
+    for char in char_to_change:
+      df_copy['Installs'] = df_copy['Installs'].str.replace(char, '')
+    df_copy['Installs'] = df_copy['Installs'].astype(int)
+
+  * **`Price` Cleaning:** 
+    * Paid apps had a dollar sign in front of the price (e.g., "$4.99"), making it text instead of a number.
+    * I removed the $ symbol and converted the column to floats (decimal numbers).
+    df_copy['Price'] = df_copy['Price'].str.replace('$', '').astype(float)
 
   * **Date Time Conversion:**
   * The **Last Updated** column originally had dates written as text strings (like "January 7, 2018"), which Python cannot use for timeline analysis.
@@ -30,7 +46,15 @@ Before analysis, the raw data was cleaned to ensure accuracy:
   * To make it easier to see trends, I extracted three separate columns from it:  `Day`,`Month` and `Year`.
   * Finally, I removed the old text-based column to keep the dataset clean and lightweight. 
 
-* **Duplicates:** Identified and removed duplicate app entries to avoid skewed analysis.
+* **Addressing Null Values:**
+  * The columns `Type`, `Current Ver`, and `Android Ver` had only a few missing values (just 1 or 2 rows each).
+  * Instead of trying to guess or fill in these missing values, I used `dropna()` with the `subset` parameter to delete only the specific rows where these columns were empty.
+
+* **Missing Value Imputation:** Handled `Rating` and `Size` using **Grouped Median Imputation**. I didn't just fill it with a generic average of the whole dataset. 
+  
+* **Duplicates:** 
+  * Sorted the entire dataset by `Reviews` in descending order (`ascending=False`) so the largest, most recent record for each app was pushed to the top.
+  * Removed duplicate entries based on the `App` name while keeping the first occurrence (`keep='first'`).
 
 * **Data Pipeline Storage:** Saved the fully processed dataframe into a clean, standalone file: `Data/google_playstore_cleaned.csv`.
 
